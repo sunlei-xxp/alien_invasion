@@ -44,7 +44,7 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, bullets, aliens):
+def update_screen(ai_settings, screen, stats, ship,  aliens, bullets, play_button):
     """update the image in screen and refresh it"""
     # Fill the screen with background color in every loop
     screen.fill(ai_settings.bg_color)
@@ -58,6 +58,10 @@ def update_screen(ai_settings, screen, ship, bullets, aliens):
 
     # Show the alien
     aliens.draw(screen)
+
+    # 如果游戏处于非活动状态,就绘制Play 按钮
+    if not stats.game_active:
+        play_button.draw_button()
 
     # Show the screen
     pygame.display.flip()
