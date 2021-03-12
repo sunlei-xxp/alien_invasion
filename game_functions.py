@@ -97,7 +97,7 @@ def update_screen(ai_settings, screen, stats, sb, ship,  aliens, bullets, play_b
     pygame.display.flip()
 
 
-def update_bullets(ai_settings, screen, ship, aliens, bullets):
+def update_bullets(ai_settings, screen, stats, sb, ship, aliens, bullets):
     """Update bullets location and remove the bullet disappeard"""
     # Update bullet location
     bullets.update()
@@ -107,13 +107,18 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom < 0:
             bullets.remove(bullet)
     # print(len(bullets))  # use this to check the length of bullets
-    check_bullets_aliens_collisions(ai_settings, screen, ship, aliens, bullets)
+    check_bullets_aliens_collisions(
+        ai_settings, screen, stats, sb, ship, aliens, bullets)
 
 
-def check_bullets_aliens_collisions(ai_settings, screen, ship, aliens, bullets):
+def check_bullets_aliens_collisions(ai_settings, screen, stats, sb, ship, aliens, bullets):
     # Check if any collide of bullet & alien
     # If Yes, remove the alien and bullet
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if collisions:
+        stats.score += ai_settings.alien_points
+        sb.prep_score
 
     if len(aliens) == 0:
         # Remove bullets, 加快游戏节奏, and create a new group of alien
